@@ -2,7 +2,7 @@
 # Playbook for Updating Security
 # Rocky/Fedora/CentOS/Alma script next -- notes for self: update this, as reconfiguring next machine. 
 #
-- name: Update and upgrade apt-get / apt packages on Ubuntu system
+- name: Update CentOS and Install Required Security Packages
   become: true
   dnf:
     upgrade: yes
