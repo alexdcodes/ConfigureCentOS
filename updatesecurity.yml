@@ -24,6 +24,11 @@
   dnf:
     install: fail2ban 
 
+- name: Install USB Guard 
+  become: true 
+  dnf:
+    install: usbguard 
+
 - name: Install Crowdsec
   become: true
   dnf:
@@ -51,5 +56,10 @@
 
 - name: Running Rkhunter Check of System Files
   ansible.builtin.raw: rkhunter --check #sring here to accept all 
+  args:
+    executable: /bin/bash
+
+- name: Usb Guard Show Devices 
+  ansible.builtin.raw: usbguard list-devices #sring here to accept all 
   args:
     executable: /bin/bash
