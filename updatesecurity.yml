@@ -59,6 +59,11 @@
   args:
     executable: /bin/bash
 
+- name: Tripwire - Run check on file system 
+  ansible.builtin.raw: tripwire --check
+  args:
+    executable: /bin/bash
+
 - name: Usb Guard Show Devices 
   ansible.builtin.raw: usbguard list-devices #sring here to accept all 
   args:
