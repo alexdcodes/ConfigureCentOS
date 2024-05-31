@@ -1,0 +1,55 @@
+#
+# Playbook for Updating Security
+# Rocky/Fedora/CentOS/Alma script next -- notes for self: update this, as reconfiguring next machine. 
+#
+- name: Update and upgrade apt-get / apt packages on Ubuntu system
+  become: true
+  dnf:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 5069 
+
+- name: Install Rkhunter
+  become: true
+  dnf:
+    install: rkhunter
+
+- name: Install Tripwire 
+  become: true
+  dnf:
+    install: tripwire
+
+- name: Install Fail2ban 
+  become: true 
+  dnf:
+    install: fail2ban 
+
+- name: Install Crowdsec
+  become: true
+  dnf:
+    install: crowdsec
+
+- name: Run a command for Crowdsec Status Check
+  ansible.builtin.raw: systemctl status crowdsec
+  args:
+    executable: /bin/bash
+
+- name: Run a command for Fail2Ban Status Check
+  ansible.builtin.raw: systemctl status fail2ban
+  args:
+    executable: /bin/bash
+
+- name: Run a command for Rkhunter to Update
+  ansible.builtin.raw: rkhunter --update
+  args:
+    executable: /bin/bash
+
+- name: Running Rkhunter Update File List
+  ansible.builtin.raw: rkhunter --propupd
+  args:
+    executable: /bin/bash
+
+- name: Running Rkhunter Check of System Files
+  ansible.builtin.raw: rkhunter --check #sring here to accept all 
+  args:
+    executable: /bin/bash
