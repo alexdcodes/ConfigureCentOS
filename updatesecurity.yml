@@ -18,6 +18,11 @@
       dnf:
         name: tripwire
 
+    - name: Install USBGuard on RHET 
+      become: true
+      dnf:
+        name: usbguard
+
     - name: Install Fail2ban on RHET 
       become: true
       dnf:
