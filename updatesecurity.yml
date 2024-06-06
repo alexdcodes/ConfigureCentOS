@@ -1,42 +1,74 @@
+#
+# Playbook for Updating Security
+# Rocky/Fedora/CentOS/Alma script next -- notes for self: update this, as reconfiguring next machine. 
+#
 ---
-- hosts: localhost 
-  tasks:
-    
-    - name: Update and upgrade DNF package(S) on RHET system
-      become: true
-      dnf:
-        upgrade: yes
-        update_cache: yes
-        cache_valid_time: 5069 
+- name: Update and upgrade apt-get / apt packages on Ubuntu system
+  become: true
+  dnf:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 5069 
 
-    - name: Install Rkhunter
-      become: true
-      dnf:
-        name: rkhunter
+- name: Install Rkhunter
+  become: true
+  dnf:
+    name: rkhunter
 
-    - name: Install Tripwire
-      become: true
-      dnf:
-        name: tripwire
+- name: Install Tripwire 
+  become: true
+  dnf:
+    name: tripwire
 
-    - name: Install Fail2ban
-      become: true
-      dnf:
-        name: fail2ban 
+- name: Install Fail2ban 
+  become: true 
+  dnf:
+    name: fail2ban 
 
-    - name: Install Crowdsec
-      become: true
-      dnf:
-        name: crowdsec
+- name: Install USB Guard 
+  become: true 
+  dnf:
+    name: usbguard 
 
-    - name: Crowdsec Status Check
-      service:
-        name: crowdsec
-        state: started
-        enabled: yes 
+- name: Install Crowdsec
+  become: true
+  dnf:
+    name: crowdsec
 
-    - name: Fail2ban Status Check
-      service:
-        name: fail2ban
-        state: started
-        enabled: yes 
+- name: Crowdsec Status Check
+  service:
+    name: crowdsec
+    state: started
+    enabled: yes 
+
+- name: Fail2ban Status Check
+  service:
+    name: fail2ban
+    state: started
+    enabled: yes 
+
+- name: Run a command for Rkhunter to Update
+  ansible.builtin.raw: rkhunter --update
+  args:
+    executable: /bin/bash
+
+- name: Running Rkhunter Update File List
+  ansible.builtin.raw: rkhunter --propupd
+  args:
+    executable: /bin/bash
+
+- name: Running Rkhunter Check of System Files
+  ansible.builtin.raw: rkhunter --check #sring here to accept all 
+  args:
+    executable: /bin/bash
+
+- name: Tripwire - Run check on file system 
+  ansible.builtin.raw: tripwire --check
+  args:
+    executable: /bin/bash
+
+- name: USB Guard Show Devices 
+  ansible.builtin.raw: usbguard list-devices #sring here to accept all 
+  args:
+    executable: /bin/bash
+
