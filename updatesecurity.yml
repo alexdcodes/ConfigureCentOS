@@ -1,6 +1,5 @@
 - hosts: localhost 
-  tasks:
-    
+  tasks:    
     - name: Update and upgrade DNF package(S) on RHET system
       become: true
       dnf:
