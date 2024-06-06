@@ -8,22 +8,22 @@
         update_cache: yes
         cache_valid_time: 5069 
 
-    - name: Install Rkhunter on Ubuntu
+    - name: Install Rkhunter on RHET
       become: true
       dnf:
         name: rkhunter
 
-    - name: Install Tripwire on Ubuntu 
+    - name: Install Tripwire on RHET 
       become: true
       dnf:
         name: tripwire
 
-    - name: Install Fail2ban on Ubuntu 
+    - name: Install Fail2ban on RHET 
       become: true
       dnf:
         name: fail2ban 
 
-    - name: Install Crowdsec on Ubuntu 
+    - name: Install Crowdsec on RHET 
       become: true
       dnf:
         name: crowdsec
