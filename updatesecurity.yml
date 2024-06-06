@@ -1,6 +1,6 @@
----
 - hosts: localhost 
-  tasks:    
+  tasks:
+    
     - name: Update and upgrade DNF package(S) on RHET system
       become: true
       dnf:
@@ -8,37 +8,34 @@
         update_cache: yes
         cache_valid_time: 5069 
 
-    - name: Install Rkhunter on RHET
+    - name: Install Rkhunter
       become: true
       dnf:
         name: rkhunter
 
-    - name: Install Tripwire on RHET 
+    - name: Install Tripwire
       become: true
       dnf:
         name: tripwire
 
-    - name: Install USBGuard on RHET 
-      become: true
-      dnf:
-        name: usbguard
-
-    - name: Install Fail2ban on RHET 
+    - name: Install Fail2ban
       become: true
       dnf:
         name: fail2ban 
 
-    - name: Install Crowdsec on RHET 
+    - name: Install Crowdsec
       become: true
       dnf:
         name: crowdsec
 
-    - name: Run a command for Crowdsec Status Check
-      ansible.builtin.raw: systemctl status crowdsec
-      args:
-        executable: /bin/bash
+    - name: Crowdsec Status Check
+      service:
+        name: crowdsec
+        state: started
+        enabled: yes 
 
-    - name: Run a command for Fail2Ban Status Check
-      ansible.builtin.raw: systemctl status fail2ban
-      args:
-        executable: /bin/bash
+    - name: Fail2ban Status Check
+      service:
+        name: fail2ban
+        state: started
+        enabled: yes 
